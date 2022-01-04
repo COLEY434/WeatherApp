@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using System;
+using System.IO;
 
 namespace WeatherApp.ConsoleClient
 {
@@ -6,6 +11,30 @@ namespace WeatherApp.ConsoleClient
     {
         static void Main(string[] args)
         {
+            //setting up configuration builder
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("config.json", optional: false);
+            
+
+            IConfiguration config = builder.Build();
+
+            //setting up dependency injection
+            //setup our DI
+            var serviceProvider = new ServiceCollection()
+                .AddLogging().
+                .AddSingleton<IConfiguration>()
+                .BuildServiceProvider();
+
+            //configure console logging
+            serviceProvider
+                .GetService<ILoggerFactory>().
+                .AddConsole(LogLevel.Debug);
+
+            var logger = serviceProvider.GetService<ILoggerFactory>()
+                .CreateLogger<Program>();
+            logger.LogDebug("Starting application");
+
             Console.WriteLine($"Welcome to world Weather Information centre.{Environment.NewLine}");
             DisplayWeatherOption();
 
@@ -35,7 +64,7 @@ namespace WeatherApp.ConsoleClient
 
                             if (!string.IsNullOrWhiteSpace(city))
                             {
-
+                                //make call to get weather condition of a city
                             }
                             else
                             {
