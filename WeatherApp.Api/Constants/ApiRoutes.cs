@@ -2,6 +2,8 @@
 {
     public class ApiRoutes
     {
-        public const string baseUrl = "api/[controller]"
+        public const string BaseUrl = "api/WeatherForecast";
+        public const string GetCurrentWeatherByCityName = "GetCurrentWeatherByCityName";
+        public const string GetCurrentWeatherByLongitudeAndLagitude = "GetCurrentWeatherByLongitudeAndLagitude";
     }
 }
