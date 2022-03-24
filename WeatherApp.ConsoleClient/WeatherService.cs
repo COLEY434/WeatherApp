@@ -17,7 +17,7 @@ namespace WeatherApp.ConsoleClient
 
         internal object GetCityWeatherInformation(string country, string city)
         {
-
+            
         }
     }
 }

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherApp.Api.Services;
+using WeatherApp.Api.Services.Interfaces;
 
 namespace WeatherApp.Api
 {
@@ -32,6 +34,9 @@ namespace WeatherApp.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherApp.Api", Version = "v1" });
             });
+
+            services.AddScoped<IWeatherService, WeatherService>();
+            services.AddHttpClient<HttpService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

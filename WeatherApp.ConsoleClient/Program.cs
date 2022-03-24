@@ -11,29 +11,6 @@ namespace WeatherApp.ConsoleClient
     {
         static void Main(string[] args)
         {
-            //setting up configuration builder
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("config.json", optional: false);
-            
-
-            IConfiguration config = builder.Build();
-
-            //setting up dependency injection
-            //setup our DI
-            var serviceProvider = new ServiceCollection()
-                .AddLogging().
-                .AddSingleton<IConfiguration>()
-                .BuildServiceProvider();
-
-            //configure console logging
-            serviceProvider
-                .GetService<ILoggerFactory>().
-                .AddConsole(LogLevel.Debug);
-
-            var logger = serviceProvider.GetService<ILoggerFactory>()
-                .CreateLogger<Program>();
-            logger.LogDebug("Starting application");
 
             Console.WriteLine($"Welcome to world Weather Information centre.{Environment.NewLine}");
             DisplayWeatherOption();
@@ -47,12 +24,12 @@ namespace WeatherApp.ConsoleClient
                 {
                     DisplayWeatherOption();
                     continue;
-                }              
+                }
 
 
-                if(int.TryParse(input, out int value))
+                if (int.TryParse(input, out int value))
                 {
-                    if(value == 1)
+                    if (value == 1)
                     {
                         Console.WriteLine("Type a country name");
                         var country = Console.ReadLine();
@@ -79,7 +56,7 @@ namespace WeatherApp.ConsoleClient
                             continue;
                         }
                     }
-                    else if(value == 2)
+                    else if (value == 2)
                     {
                         Console.WriteLine("Option two selected");
                     }
@@ -96,7 +73,7 @@ namespace WeatherApp.ConsoleClient
                 DisplayWeatherOption();
             }
 
-            
+
         }
 
         private static void DisplayWeatherOption()
