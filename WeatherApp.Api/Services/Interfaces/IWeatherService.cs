@@ -4,6 +4,6 @@ namespace WeatherApp.Api.Services.Interfaces
 {
     public interface IWeatherService
     {
-        Task<object> GetWeatherByCityName(string city);
+        Task<object> GetWeather(string city);
     }
 }
