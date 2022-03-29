@@ -11,6 +11,11 @@ namespace WeatherApp.Api.Services
             throw new NotImplementedException();
         }
 
+        public Task<object> GetWeather(string city)
+        {
+            throw new NotImplementedException();
+        }
+
         public int MultiplyNumber(int a, int b)
         {
             return a * b;

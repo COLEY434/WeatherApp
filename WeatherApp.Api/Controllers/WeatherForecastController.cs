@@ -7,41 +7,38 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WeatherApp.Api.Services.Interfaces;
 
 namespace WeatherApp.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/WeatherForecast")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IWeatherService _weatherService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherService weatherService)
         {
             _logger = logger;
+            _weatherService = weatherService;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("GetCurrentWeather/{input}")]
+        public async Task<IActionResult> GetCurrentWeather([FromRoute] string input)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            string ip = "84958232";
+            _logger.LogInformation($"Getting current weather information for {ip}");
+
+            bool isValid  = Utils.IsInputValid(input);
+
+            if (!isValid)
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+                return BadRequest("Invalid Input");
+            }
 
-        [HttpGet("GetCurrentWeather")]
-        public async Task<IActionResult> GetWeather()
-        {
+           // var result = await _weatherService.GetWeather(input);
             var http = new HttpClient();
 
             //var req = new { key = "ff8353b21f6c44e985f200928220202", q = "Lagos"};
@@ -64,5 +61,7 @@ namespace WeatherApp.Api.Controllers
             }            
            
         }
+
+
     }
 }
