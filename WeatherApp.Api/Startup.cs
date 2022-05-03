@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +51,20 @@ namespace WeatherApp.Api
             }
 
             app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                var password = context.Request.Headers["passwordKey"];
+                string storedPassword = Configuration.GetValue<string>("SecretPassword");
 
+                if(password != storedPassword)
+                {
+                    context.Response.StatusCode = 403;
+                    return;
+                }
+
+
+                await next();
+            });
             app.UseRouting();
 
             app.UseAuthorization();

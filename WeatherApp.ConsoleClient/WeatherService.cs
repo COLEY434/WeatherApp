@@ -15,9 +15,9 @@ namespace WeatherApp.ConsoleClient
             _client = new HttpClient();
         }
 
-        internal object GetCityWeatherInformation(string country, string city)
-        {
+        //internal object GetCityWeatherInformation(string country, string city)
+        //{
             
-        }
+        //}
     }
 }
