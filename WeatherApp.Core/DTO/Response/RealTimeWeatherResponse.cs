@@ -1,8 +1,19 @@
-﻿namespace WeatherApp.Api.Dtos.Response
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WeatherApp.Core.DTO.Response
 {
-    internal class RealTimeWeatherResponse
+    public class RealTimeWeatherResponse
     {
         public Location location { get; set; }
+        public Current current { get; set; }      
+    }
+    
+    public class Current
+    {
         public Condition condition { get; set; }
         public decimal temp_c { get; set; }
         public decimal temp_f { get; set; }
@@ -18,8 +29,7 @@
         public int humidity { get; set; }
         public int cloud { get; set; }
     }
-
-    internal class Location
+    public class Location
     {
         public string name { get; set; }
         public string region { get; set; }
@@ -28,10 +38,10 @@
         public decimal lon { get; set; }
         public string tz_id { get; set; }
         public int localtime_epoch { get; set; }
-        public string localtime { get; set; }    
+        public string localtime { get; set; }
     }
 
-    internal class Condition
+    public class Condition
     {
         public int code { get; set; }
         public string text { get; set; }

@@ -12,8 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WeatherApp.Api.Services;
-using WeatherApp.Api.Services.Interfaces;
+using WeatherApp.Core.Interfaces;
+using WeatherApp.Core.Services;
 
 namespace WeatherApp.Api
 {
@@ -37,7 +37,7 @@ namespace WeatherApp.Api
             });
 
             services.AddScoped<IWeatherService, WeatherService>();
-            services.AddHttpClient<HttpService>();
+            services.AddHttpClient<IHttpService,HttpService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,20 +51,7 @@ namespace WeatherApp.Api
             }
 
             app.UseHttpsRedirection();
-            app.Use(async (context, next) =>
-            {
-                var password = context.Request.Headers["passwordKey"];
-                string storedPassword = Configuration.GetValue<string>("SecretPassword");
-
-                if(password != storedPassword)
-                {
-                    context.Response.StatusCode = 403;
-                    return;
-                }
-
-
-                await next();
-            });
+          
             app.UseRouting();
 
             app.UseAuthorization();
